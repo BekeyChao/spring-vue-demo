@@ -1,4 +1,4 @@
-## 前后端分离 Spring Booot + Vue 开发单页面应用（个人入门向）
+## 前后端分离 Spring Booot + Vue 开发单页面应用（一）
 
 目的是搭建一个可以复用的模板
 
@@ -13,4 +13,4 @@
 都是一些基础的开发环境，具体搭建过程略。
 
 ### 博客地址
-[开源中国-BekeyChao](https://my.oschina.net/u/3491123/blog)
+[前后端分离 Spring Boot + Vue 开发单页面应用 个人总结（一）](https://my.oschina.net/u/3491123/blog/1592935)
