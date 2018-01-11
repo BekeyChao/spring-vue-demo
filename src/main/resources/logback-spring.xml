@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- scan配置文件发生改变时是否重新加载，默认为true
+    scanPeriod 是否又修改间隔，单位毫秒，默认为1分钟
+    debug 为true时打印logback内部日志信息，默认为false
+ -->
+<configuration scan="true" scanPeriod="60000" debug="false">
+    <!-- 设置上下文名称，默认为default，用于区分不同应用程序记录 -->
+    <!--<contextName> myAppName</contextName>-->
+    <!-- 设置变量 定义后通过${} 取值 -->
+    <property name="LOG_PATH" value="logs"/>
+    <property name="LOG_ARCHIVE" value="${LOG_PATH}/archive"/>
+    <!-- 定义时间戳 -->
+    <timestamp key="timestamp-by-second" datePattern="yyyy-MM-dd HH:mm:ss"/>
+
+    <!-- 控制台打印日志的相关配置 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- 日志格式 -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %le %logger{5} - %m%n</pattern>
+        </encoder>
+        <!-- 日志临界值过滤器 -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!-- 过滤的级别 -->
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <!-- 文件保存日志的相关配置 -->
+    <appender name="ERROR-OUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- 保存日志文件的路径 -->
+        <file>${LOG_PATH}/error.log</file>
+        <append>true</append>
+        <!-- 日志格式 -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %le %logger{5} - %m%n</pattern>
+        </encoder>
+        <!-- 日志级别过滤器 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 过滤的级别 -->
+            <level>ERROR</level>
+            <!-- 匹配时的操作：接收（记录） -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 不匹配时的操作：拒绝（不记录） NEUTRAL 有序列表里的下个过滤器过接着处理日志 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 循环政策：基于时间创建日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志文件名格式 -->
+            <fileNamePattern>${LOG_PATH}/error/%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 最大保存时间：30天-->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="Log_web" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/web.log</file>
+        <append>true</append>
+        <!-- 日志格式 -->
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %le %logger{5} - %m%n</pattern>
+        </encoder>
+        <!-- 日志级别过滤器 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 过滤的级别 -->
+            <level>INFO</level>
+            <!-- 匹配时的操作：接收（记录） -->
+            <onMatch>ACCEPT</onMatch>
+            <!-- 不匹配时的操作：拒绝（不记录） NEUTRAL 有序列表里的下个过滤器过接着处理日志 -->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <!-- 循环政策：基于时间创建日志文件 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 日志文件名格式 -->
+            <fileNamePattern>${LOG_PATH}/web/%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 最大保存时间：30天-->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="com.casic.demo" level="info" additivity="false">
+        <!--<appender-ref ref="Log_web"/>-->
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <!-- 基于debug处理日志：具体控制台或者文件对日志级别的处理还要看所在appender配置的filter，如果没有配置filter，则使用root配置 -->
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="ERROR-OUT" />
+    </root>
+</configuration>

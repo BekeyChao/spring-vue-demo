@@ -1,6 +1,6 @@
 package com.casic.demo.repository;
 
-import com.casic.demo.entity.SysUser;
+import com.casic.demo.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -8,10 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * 继承JapRepository，可以实现一些默认方法，如save/findAll/findOne/delete/count/exists 等
  * Created by bekey on 2017/12/20.
  */
-public interface SysUserRepository extends JpaRepository<SysUser,Integer> {
-    /**
-     * 按用户名——密码查找
-     */
-    SysUser findFirstByNameAndPassword(String name, String password);
-
+public interface UserRepository extends JpaRepository<User,Integer> {
+    User findUserByUsername(String username);
 }
