@@ -50,10 +50,6 @@ public class Permission {
         this.method = method;
     }
 
-    public String getDescritpion() {
-        return description;
-    }
-
     public void setDescription(String description) {
         this.description = description;
     }

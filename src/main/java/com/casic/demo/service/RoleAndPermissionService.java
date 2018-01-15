@@ -15,4 +15,6 @@ public interface RoleAndPermissionService {
     Role findRoleByRoleName(String roleName);
 
     void updatePublicResource();
+
+    Role saveRole(String name, Integer[] pids);
 }

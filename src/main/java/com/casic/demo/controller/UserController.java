@@ -28,19 +28,10 @@ public class UserController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private ResultGenerator generator;
 
-    // 登陆验证工作已交由Security框架处理
-//    @RequestMapping(value = "/login")
-//    public RestResult login(@NotNull(message = "用户名不能为空") String username,@NotNull(message = "密码不能为空") String password, HttpSession session) {
-
-//    }
-
-    @RequestMapping(value = "/successLogin")
-    public RestResult success() {
+    @RequestMapping(value = "/getUser")
+    public RestResult getUser() {
         //获取当前用户信息
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return generator.getSuccessResult(user);

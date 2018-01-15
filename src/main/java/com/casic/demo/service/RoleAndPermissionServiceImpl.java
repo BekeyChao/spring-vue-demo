@@ -8,6 +8,7 @@ import com.casic.demo.security.PermissionSecurityMetadataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("RoleAndPermissionService")
@@ -46,5 +47,15 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
     @Override
     public void updatePublicResource() {
 
+    }
+
+    @Override
+    public Role saveRole(String name, Integer[] pids) {
+        List<Permission> permissions = new ArrayList<>();
+        for (Integer pid: pids) {
+            permissions.add(permissionRepository.findOne(pid));
+        }
+        Role role = new Role(name, permissions);
+        return roleRepository.save(role);
     }
 }

@@ -1,13 +1,14 @@
 package com.casic.demo.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * 角色
  */
 @Entity
-public class Role {
+public class Role implements Serializable{
     @Id
     @GeneratedValue
     private Integer id;
@@ -16,6 +17,14 @@ public class Role {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Permission> permissions;
+
+    public Role() {
+    }
+
+    public Role(String name, List<Permission> permissions) {
+        this.name = name;
+        this.permissions = permissions;
+    }
 
     public Integer getId() {
         return id;

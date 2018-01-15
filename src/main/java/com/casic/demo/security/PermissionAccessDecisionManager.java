@@ -31,7 +31,7 @@ public class PermissionAccessDecisionManager  implements AccessDecisionManager{
             case (RoleVoter.ACCESS_DENIED):
                 throw new AccessDeniedException("用户权限不足");
             case (RoleVoter.ACCESS_GRANTED):
-                logger.info(authentication.getPrincipal() + "因为拥有权限而通过");
+                logger.debug(authentication.getPrincipal() + "因为拥有权限而通过");
                 return;
             default:
                 throw new AccessDeniedException("不支持的用户类型");

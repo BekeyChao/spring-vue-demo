@@ -17,7 +17,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
 
 @EnableWebSecurity
@@ -58,14 +57,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/css/**","/js/**","/index.html");
+        //这里设置里也是无效的
+//        web.ignoring().antMatchers("/css/**","/js/**","/index.html");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
             .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() //不拦截跨域
+            // 开启匿名访问
             .antMatchers("/**").permitAll()
+            // 使用登陆控制
             .anyRequest().authenticated()
             .and()
             .formLogin().loginProcessingUrl("/login").loginPage("/auth/401").defaultSuccessUrl("/user/successLogin").failureForwardUrl("/auth/failLogin")

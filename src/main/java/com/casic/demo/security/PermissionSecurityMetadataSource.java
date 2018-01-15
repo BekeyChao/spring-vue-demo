@@ -51,15 +51,15 @@ public class PermissionSecurityMetadataSource implements FilterInvocationSecurit
         final HttpServletRequest request = ((FilterInvocation) object).getRequest();
         String principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         boolean isAnonymousUser = principal.equals("anonymousUser");
-        logger.info(principal + "正在访问：" + request.getRequestURI() );
+        logger.debug(principal + "正在访问：" + request.getRequestURI() );
         // 先检查是否访问用户资源
         if (!isAnonymousUser && access(authenticatedManager, request)) {
-            logger.info(principal + "因为访问用户资源而通过");
+            logger.debug(principal + "因为访问用户资源而通过");
             return null;
         }
         // 检查是否访问公共资源
         if (access(publicManager, request)) {
-            logger.info(principal + "因为访问公共资源而通过");
+            logger.debug(principal + "因为访问公共资源而通过");
             return null;
         }
         // 匿名用户访问公共资源抛出未登录异常
@@ -80,7 +80,7 @@ public class PermissionSecurityMetadataSource implements FilterInvocationSecurit
         Role pub = roleAndPermissionService.findRoleByRoleName(ROLE_ANONYMOUS);
         updateRequests(auth, authenticatedManager);
         updateRequests(pub, publicManager);
-        logger.info("公共资源 及 用户资源 加载完毕" );
+        logger.debug("公共资源 及 用户资源 加载完毕" );
     }
 
     private void updateRequests(Role role, RequestMatcherManager requests) {
