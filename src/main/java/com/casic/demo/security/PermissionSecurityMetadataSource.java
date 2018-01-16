@@ -77,9 +77,17 @@ public class PermissionSecurityMetadataSource implements FilterInvocationSecurit
      */
     public void updateRequests() {
         Role auth = roleAndPermissionService.findRoleByRoleName(ROLE_AUTHENTICATED);
-        Role pub = roleAndPermissionService.findRoleByRoleName(ROLE_ANONYMOUS);
         updateRequests(auth, authenticatedManager);
-        updateRequests(pub, publicManager);
+        Role pub = roleAndPermissionService.findRoleByRoleName(ROLE_ANONYMOUS);
+        if (pub == null || pub.getPermissions() == null || pub.getPermissions().size() == 0) {
+            // 如果公共资源未设置， 添加默认的公共资源
+            logger.debug("数据库中未发现设定的公共资源，添加默认资源");
+            publicManager.clear();
+            publicManager.addMatchers(PublicResourceConfig.STATIC_RESOURCES);
+            publicManager.addMatchers(PublicResourceConfig.UNAUTHORIZED);
+        } else {
+            updateRequests(pub, publicManager);
+        }
         logger.debug("公共资源 及 用户资源 加载完毕" );
     }
 

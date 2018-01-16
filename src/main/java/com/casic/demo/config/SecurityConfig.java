@@ -1,12 +1,11 @@
 package com.casic.demo.config;
 
+import com.casic.demo.security.AuthenticationHandler;
 import com.casic.demo.security.PermissionFilterInterceptor;
-import com.casic.demo.security.PermissionAccessDecisionManager;
+import com.casic.demo.security.PublicResourceConfig;
 import com.casic.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -25,6 +24,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     UserService userService;
     @Autowired
     PermissionFilterInterceptor permissionFilterInterceptor;
+    @Autowired
+    AuthenticationHandler authenticationHandler;
+
 
     @Bean
     UserDetailsService customUserService() {
@@ -70,9 +72,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
             // 使用登陆控制
             .anyRequest().authenticated()
             .and()
-            .formLogin().loginProcessingUrl("/login").loginPage("/auth/401").defaultSuccessUrl("/user/successLogin").failureForwardUrl("/auth/failLogin")
+            .formLogin().loginProcessingUrl("/login").loginPage(PublicResourceConfig.UNAUTHORIZED).successHandler(authenticationHandler).failureHandler(authenticationHandler)
             .and()
-            .logout().logoutSuccessUrl("/auth/logout");
+            .logout().logoutSuccessHandler(authenticationHandler);
         http.addFilterBefore(permissionFilterInterceptor,FilterSecurityInterceptor.class).csrf().disable();   //添加一个查看权限的Filter
     }
 }
