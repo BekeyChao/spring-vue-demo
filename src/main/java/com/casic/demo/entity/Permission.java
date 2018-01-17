@@ -1,12 +1,6 @@
 package com.casic.demo.entity;
 
-import org.springframework.security.access.ConfigAttribute;
-import org.springframework.security.access.SecurityConfig;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 /**
  * 控制的资源
@@ -18,7 +12,7 @@ public class Permission {
     private Integer id;
 
     // url资源 符合Ant Path Url表达式
-    private String resource;
+    private String resources;
 
     //允许的方法 数据库中储存字段
     private String method;
@@ -34,12 +28,12 @@ public class Permission {
         this.id = id;
     }
 
-    public String getResource() {
-        return resource;
+    public String getResources() {
+        return resources;
     }
 
-    public void setResource(String resource) {
-        this.resource = resource;
+    public void setResources(String resources) {
+        this.resources = resources;
     }
 
     public String getMethod() {

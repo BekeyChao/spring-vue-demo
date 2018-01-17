@@ -1,6 +1,6 @@
 package com.casic.demo.service;
 
-import com.casic.demo.entity.User;
+import com.casic.demo.entity.SysUser;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
@@ -11,10 +11,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public interface UserService extends UserDetailsService{
     /**
      * 注册用户
-     * @param user
+     * @param sysUser
      * @return 注册成功将用户信息返回，否则返回null
      */
-    User saveUser(User user);
+    SysUser saveUser(SysUser sysUser);
 
     /**
      * 检查用户名密码是否正确
@@ -22,7 +22,7 @@ public interface UserService extends UserDetailsService{
      * @param password 密码
      * @return 验证通过则将用户信息返回，否则返回null
      */
-    User checkLogin(String name, String password);
+    SysUser checkLogin(String name, String password);
 
     void updatePublicResource();
 }

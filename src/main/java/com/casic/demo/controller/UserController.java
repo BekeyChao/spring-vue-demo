@@ -1,9 +1,7 @@
 package com.casic.demo.controller;
 
 import com.casic.demo.entity.RestResult;
-import com.casic.demo.entity.User;
-import com.casic.demo.service.RoleAndPermissionService;
-import com.casic.demo.service.UserService;
+import com.casic.demo.entity.SysUser;
 import com.casic.demo.utils.ResultGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,14 +25,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
+    private final ResultGenerator generator;
+
     @Autowired
-    private ResultGenerator generator;
+    public UserController(ResultGenerator generator) {
+        this.generator = generator;
+    }
 
     @RequestMapping(value = "/getUser")
     public RestResult getUser() {
         //获取当前用户信息
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return generator.getSuccessResult(user);
+        SysUser sysUser = (SysUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return generator.getSuccessResult(sysUser);
     }
 
 }

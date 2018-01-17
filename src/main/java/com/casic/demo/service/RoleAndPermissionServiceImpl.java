@@ -1,10 +1,9 @@
 package com.casic.demo.service;
 
 import com.casic.demo.entity.Permission;
-import com.casic.demo.entity.Role;
+import com.casic.demo.entity.SysRole;
 import com.casic.demo.repository.PermissionRepository;
 import com.casic.demo.repository.RoleRepository;
-import com.casic.demo.security.PermissionSecurityMetadataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +12,15 @@ import java.util.List;
 
 @Service("RoleAndPermissionService")
 public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
-    @Autowired
-    RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
+
+    private final PermissionRepository permissionRepository;
 
     @Autowired
-    PermissionRepository permissionRepository;
+    public RoleAndPermissionServiceImpl(RoleRepository roleRepository, PermissionRepository permissionRepository) {
+        this.roleRepository = roleRepository;
+        this.permissionRepository = permissionRepository;
+    }
 
     @Override
     public Permission findPermissionById(Integer id) {
@@ -25,13 +28,13 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
     }
 
     @Override
-    public Role findRoleById(Integer id) {
+    public SysRole findRoleById(Integer id) {
         return roleRepository.findOne(id);
     }
 
     @Override
-    public Role saveRole(Role role) {
-        return roleRepository.save(role);
+    public SysRole saveRole(SysRole sysRole) {
+        return roleRepository.save(sysRole);
     }
 
     @Override
@@ -40,7 +43,7 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
     }
 
     @Override
-    public Role findRoleByRoleName(String roleName) {
+    public SysRole findRoleByRoleName(String roleName) {
         return roleRepository.findRoleByName(roleName);
     }
 
@@ -50,12 +53,12 @@ public class RoleAndPermissionServiceImpl implements RoleAndPermissionService {
     }
 
     @Override
-    public Role saveRole(String name, Integer[] pids) {
+    public SysRole saveRole(String name, Integer[] pids) {
         List<Permission> permissions = new ArrayList<>();
         for (Integer pid: pids) {
             permissions.add(permissionRepository.findOne(pid));
         }
-        Role role = new Role(name, permissions);
-        return roleRepository.save(role);
+        SysRole sysRole = new SysRole(name, permissions);
+        return roleRepository.save(sysRole);
     }
 }

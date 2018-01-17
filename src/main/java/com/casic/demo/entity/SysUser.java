@@ -18,7 +18,7 @@ import java.util.List;
  * Created by bekey on 2017/12/20.
  */
 @Entity
-public class User implements UserDetails{
+public class SysUser implements UserDetails{
     @Id
     @GeneratedValue
     private Integer id; //主键 自增
@@ -33,7 +33,7 @@ public class User implements UserDetails{
     private Boolean enable = Boolean.TRUE;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private List<Role> roles;
+    private List<SysRole> sysRoles;
 
     @Override
     public String getUsername() {
@@ -68,11 +68,11 @@ public class User implements UserDetails{
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> auths = new ArrayList<>();
-        getRoles().forEach(role -> {
+        getSysRoles().forEach(role -> {
             String roleName = role.getName();
             RequestMatcherManager manager = new RequestMatcherManager();
             role.getPermissions().forEach(permission -> {
-                manager.addMatchers(permission.getResource(), permission.getMethod());
+                manager.addMatchers(permission.getResources(), permission.getMethod());
             });
             auths.add(new PermissionGrantedAuthority(roleName, manager));
         });
@@ -120,11 +120,11 @@ public class User implements UserDetails{
         this.nickname = nickname;
     }
 
-    public List<Role> getRoles() {
-        return roles;
+    public List<SysRole> getSysRoles() {
+        return sysRoles;
     }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
+    public void setSysRoles(List<SysRole> sysRoles) {
+        this.sysRoles = sysRoles;
     }
 }

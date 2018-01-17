@@ -20,11 +20,11 @@ public class PermissionFilterInterceptor extends AbstractSecurityInterceptor imp
 
     private static final String FILTER_APPLIED = "__spring_security_permissionFilterInterceptor_filterApplied";
 
-    @Autowired
-    PermissionSecurityMetadataSource metadataSource;
+    private final PermissionSecurityMetadataSource metadataSource;
 
     @Autowired
-    public void setPermissionAccessDecisionManager(PermissionAccessDecisionManager permissionAccessDecisionManager) {
+    public PermissionFilterInterceptor(PermissionSecurityMetadataSource metadataSource,PermissionAccessDecisionManager permissionAccessDecisionManager) {
+        this.metadataSource = metadataSource;
         super.setAccessDecisionManager(permissionAccessDecisionManager);
     }
 

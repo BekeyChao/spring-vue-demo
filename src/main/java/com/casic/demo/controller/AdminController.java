@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    RoleAndPermissionService roleAndPermissionService;
+    private final RoleAndPermissionService roleAndPermissionService;
+
+    private final ResultGenerator generator;
 
     @Autowired
-    ResultGenerator generator;
+    public AdminController(RoleAndPermissionService roleAndPermissionService, ResultGenerator generator) {
+        this.roleAndPermissionService = roleAndPermissionService;
+        this.generator = generator;
+    }
 
     @RequestMapping("/isAdmin")
     public RestResult isAdmin() {

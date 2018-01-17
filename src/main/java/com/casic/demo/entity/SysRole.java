@@ -8,7 +8,7 @@ import java.util.List;
  * 角色
  */
 @Entity
-public class Role implements Serializable{
+public class SysRole implements Serializable{
     @Id
     @GeneratedValue
     private Integer id;
@@ -18,10 +18,10 @@ public class Role implements Serializable{
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Permission> permissions;
 
-    public Role() {
+    public SysRole() {
     }
 
-    public Role(String name, List<Permission> permissions) {
+    public SysRole(String name, List<Permission> permissions) {
         this.name = name;
         this.permissions = permissions;
     }

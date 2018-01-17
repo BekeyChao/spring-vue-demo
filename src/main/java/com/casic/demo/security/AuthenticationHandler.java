@@ -1,18 +1,14 @@
 package com.casic.demo.security;
 
 import com.casic.demo.entity.RestResult;
-import com.casic.demo.entity.ResultCode;
-import com.casic.demo.entity.User;
+import com.casic.demo.entity.SysUser;
 import com.casic.demo.utils.ResultGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
@@ -28,8 +24,12 @@ import java.io.PrintWriter;
 public class AuthenticationHandler implements AuthenticationFailureHandler, AuthenticationSuccessHandler, LogoutSuccessHandler {
     Logger logger = LoggerFactory.getLogger(AuthenticationHandler.class);
 
+    private final ResultGenerator generator;
+
     @Autowired
-    ResultGenerator generator;
+    public AuthenticationHandler(ResultGenerator generator) {
+        this.generator = generator;
+    }
 
     /**
      * 登陆登陆异常的操作
@@ -48,8 +48,8 @@ public class AuthenticationHandler implements AuthenticationFailureHandler, Auth
      */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        User user = (User) authentication.getPrincipal();
-        RestResult restResult = generator.getSuccessResult("登陆成功",user);
+        SysUser sysUser = (SysUser) authentication.getPrincipal();
+        RestResult restResult = generator.getSuccessResult("登陆成功", sysUser);
         returnJson(response, restResult);
     }
 

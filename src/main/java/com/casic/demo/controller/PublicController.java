@@ -13,8 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/public")
 @RestController
 public class PublicController {
+    private final ResultGenerator generator;
+
     @Autowired
-    ResultGenerator generator;
+    public PublicController(ResultGenerator generator) {
+        this.generator = generator;
+    }
 
     @RequestMapping("/unauthorized")
     public RestResult unauthorized() {

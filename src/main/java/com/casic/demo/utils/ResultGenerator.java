@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * 工厂模式
  * 接口信息生成工具
- * 。@Component 添加到Spring组件中
+ * Component 添加到Spring组件中
  * Created by bekey on 2017/12/10.
  */
 @Component

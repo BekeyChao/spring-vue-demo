@@ -1,7 +1,7 @@
 package com.casic.demo.security;
 
 import com.casic.demo.entity.Permission;
-import com.casic.demo.entity.Role;
+import com.casic.demo.entity.SysRole;
 import com.casic.demo.service.RoleAndPermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,9 +76,9 @@ public class PermissionSecurityMetadataSource implements FilterInvocationSecurit
      * 在初始化及资源变动时更新资源
      */
     public void updateRequests() {
-        Role auth = roleAndPermissionService.findRoleByRoleName(ROLE_AUTHENTICATED);
+        SysRole auth = roleAndPermissionService.findRoleByRoleName(ROLE_AUTHENTICATED);
         updateRequests(auth, authenticatedManager);
-        Role pub = roleAndPermissionService.findRoleByRoleName(ROLE_ANONYMOUS);
+        SysRole pub = roleAndPermissionService.findRoleByRoleName(ROLE_ANONYMOUS);
         if (pub == null || pub.getPermissions() == null || pub.getPermissions().size() == 0) {
             // 如果公共资源未设置， 添加默认的公共资源
             logger.debug("数据库中未发现设定的公共资源，添加默认资源");
@@ -91,17 +91,17 @@ public class PermissionSecurityMetadataSource implements FilterInvocationSecurit
         logger.debug("公共资源 及 用户资源 加载完毕" );
     }
 
-    private void updateRequests(Role role, RequestMatcherManager requests) {
+    private void updateRequests(SysRole sysRole, RequestMatcherManager requests) {
         requests.clear();
-        if (role == null) {
+        if (sysRole == null) {
             return;
         }
-        List<Permission> permissions = role.getPermissions();
+        List<Permission> permissions = sysRole.getPermissions();
         if (permissions == null || permissions.size() == 0) {
             return;
         }
         permissions.forEach(permission -> {
-            requests.addMatchers(permission.getResource(), permission.getMethod());
+            requests.addMatchers(permission.getResources(), permission.getMethod());
         });
     }
 

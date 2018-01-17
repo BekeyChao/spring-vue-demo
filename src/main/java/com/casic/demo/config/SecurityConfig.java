@@ -20,13 +20,22 @@ import org.springframework.web.cors.CorsUtils;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
-    @Autowired
-    UserService userService;
-    @Autowired
-    PermissionFilterInterceptor permissionFilterInterceptor;
-    @Autowired
-    AuthenticationHandler authenticationHandler;
+    private final UserService userService;
+    private final PermissionFilterInterceptor permissionFilterInterceptor;
+    private final AuthenticationHandler authenticationHandler;
 
+    /**
+     * 注入三个组件
+     * @param userService 实现UserDetailsService接口, 为框架加载用户信息
+     * @param permissionFilterInterceptor 自定义权限控制过滤器
+     * @param authenticationHandler 自定义用户登录退出后的操作
+     */
+    @Autowired
+    public SecurityConfig(UserService userService, PermissionFilterInterceptor permissionFilterInterceptor, AuthenticationHandler authenticationHandler) {
+        this.userService = userService;
+        this.permissionFilterInterceptor = permissionFilterInterceptor;
+        this.authenticationHandler = authenticationHandler;
+    }
 
     @Bean
     UserDetailsService customUserService() {

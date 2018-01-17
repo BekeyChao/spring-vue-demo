@@ -20,8 +20,12 @@ public class GlobalExceptionHandler {
 
     static final Logger looger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    private final ResultGenerator generator;
+
     @Autowired
-    ResultGenerator generator;
+    public GlobalExceptionHandler(ResultGenerator generator) {
+        this.generator = generator;
+    }
 
     /**
      * 为参数验证添加异常处理器

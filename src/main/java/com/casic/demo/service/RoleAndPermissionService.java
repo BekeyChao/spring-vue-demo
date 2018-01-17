@@ -1,20 +1,20 @@
 package com.casic.demo.service;
 
 import com.casic.demo.entity.Permission;
-import com.casic.demo.entity.Role;
+import com.casic.demo.entity.SysRole;
 
 public interface RoleAndPermissionService {
     Permission findPermissionById(Integer id);
 
-    Role findRoleById(Integer id);
+    SysRole findRoleById(Integer id);
 
-    Role saveRole(Role role);
+    SysRole saveRole(SysRole sysRole);
 
     Permission savePermission(Permission permission);
 
-    Role findRoleByRoleName(String roleName);
+    SysRole findRoleByRoleName(String roleName);
 
     void updatePublicResource();
 
-    Role saveRole(String name, Integer[] pids);
+    SysRole saveRole(String name, Integer[] pids);
 }
