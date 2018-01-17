@@ -22,7 +22,7 @@ import java.io.PrintWriter;
 
 @Component
 public class AuthenticationHandler implements AuthenticationFailureHandler, AuthenticationSuccessHandler, LogoutSuccessHandler {
-    Logger logger = LoggerFactory.getLogger(AuthenticationHandler.class);
+     private Logger logger = LoggerFactory.getLogger(AuthenticationHandler.class);
 
     private final ResultGenerator generator;
 
@@ -38,8 +38,7 @@ public class AuthenticationHandler implements AuthenticationFailureHandler, Auth
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         RestResult restResult = generator.getFailResult(exception.getLocalizedMessage());
-        ObjectMapper mapper = new ObjectMapper();
-        returnJson(response, mapper.writeValueAsString(restResult));
+        returnJson(response, restResult);
     }
 
     /**
@@ -80,5 +79,4 @@ public class AuthenticationHandler implements AuthenticationFailureHandler, Auth
                 writer.close();
         }
     }
-
 }

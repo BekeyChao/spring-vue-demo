@@ -85,6 +85,7 @@ public class PermissionSecurityMetadataSource implements FilterInvocationSecurit
             publicManager.clear();
             publicManager.addMatchers(PublicResourceConfig.STATIC_RESOURCES);
             publicManager.addMatchers(PublicResourceConfig.UNAUTHORIZED);
+            publicManager.addMatchers(PublicResourceConfig.LOGIN_LOGOUT_HOME_INDEX);
         } else {
             updateRequests(pub, publicManager);
         }
