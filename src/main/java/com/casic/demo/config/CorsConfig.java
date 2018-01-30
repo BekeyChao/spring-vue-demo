@@ -8,6 +8,7 @@ import org.springframework.web.filter.CorsFilter;
 
 /**
  * 设置允许跨域
+ * @author bekey
  */
 @Configuration
 public class CorsConfig {
@@ -18,9 +19,12 @@ public class CorsConfig {
      */
     private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("*"); // 1
-        corsConfiguration.addAllowedHeader("*"); // 2
-        corsConfiguration.addAllowedMethod("*"); // 3
+        // // addAllowedOrigin 不能设置为* 因为与 allowCredential 冲突,需要设置为具体前端开发地址
+        corsConfiguration.addAllowedOrigin("http://localhost:9528");
+        corsConfiguration.addAllowedHeader("*");
+        corsConfiguration.addAllowedMethod("*");
+        // allowCredential 需设置为true
+        corsConfiguration.setAllowCredentials(true);
         return corsConfiguration;
     }
 
